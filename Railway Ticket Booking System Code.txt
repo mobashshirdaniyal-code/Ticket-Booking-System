@@ -1,0 +1,165 @@
+import java.util.*;
+import java.io.*;
+public class Railway
+{
+    private int child=0;
+    private int n=0;
+    private String arr[][];
+    private String compart;
+    String s;
+    String s1;
+    String str;
+    public Railway(int mm)
+    {
+        this.n=mm;
+        this.arr= new String[n][3];
+    }
+    
+    public void wwd()
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Where to?");
+        s=sc.nextLine();
+        System.out.println("Where from?");
+        s1=sc.nextLine();
+    }
+    
+    public String input()
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter date");
+        str=sc.nextLine();
+        for(int i=0;i<this.arr.length;i++)
+        {
+            System.out.println("Enter details of passenger "+(i+1));
+            for(int j=0;j<this.arr[i].length;j++)
+            {
+                if(j==arr[i].length-3)
+                {
+                    System.out.print("Name :: ");
+                    arr[i][j]=sc.next();
+                }
+                else if(j==arr[i].length-2)
+                {
+                    System.out.print("Age :: ");
+                    arr[i][j]=sc.next();
+                    int age=Integer.parseInt(arr[i][j]);
+                    if(age<=12)
+                    {
+                        child++;
+                    }
+                }
+                else if(j==arr[i].length-1)
+                {
+                    System.out.print("Gender :: ");
+                    arr[i][j]=sc.next();
+                }
+            }
+        }
+        System.out.println("Enter compartment A/C OR NON-A/C");
+        compart=sc.next();
+        return str;
+    }
+    
+    public double calculate()
+    {
+        Scanner sc=new Scanner(System.in);
+        double amount=0.0;
+        if(compart.equalsIgnoreCase("A/C"))
+        {
+            double am=(550.0*n)-(550.0/2.0*child);
+            System.out.println("PLEASE MAKE YOUR PAYMENT OF Rs."+am);
+            amount=sc.nextDouble();
+            if(amount==am)
+            {
+                System.out.println("Thank you! Your payment is successfully done");
+            }
+            else
+            {
+                System.out.println("PLEASE MAKE YOUR PAYMENT CORRECTLY");
+                amount=sc.nextDouble();
+            }
+        }
+        else
+        {
+            double amt=(375.0*n)-(375.0/2.0*child);
+            System.out.println("PLEASE MAKE YOUR PAYMENT OF Rs."+amt);
+            amount=sc.nextDouble();
+            if(amount==amt)
+            {
+                System.out.println("Thank you! Your payment is successfully done");
+            }
+            else
+            {
+                System.out.println("PLEASE MAKE YOUR PAYMENT CORRECTLY");
+                amount=sc.nextDouble();
+            } 
+        }
+        System.out.println("TICKET BOOKED FOR "+str);
+        return amount;
+    }
+    
+    public void display(int a)
+    {
+        if(a==1)
+        {
+            System.out.println("Ticket details below");
+            System.out.println("--------------------");
+            System.out.println(s+" TO "+s1);
+            System.out.println("NAME\tAGE\tGENDER");
+            System.out.println("--------------------");
+            for(int i=0;i<arr.length;i++)
+            {
+                for(int j=0;j<arr[i].length;j++)
+                {
+                    System.out.print(arr[i][j]+"\t");
+                }
+                System.out.println();
+            }
+            System.out.println("--------------------");
+        }
+    }
+    
+    public int Extract(String s)
+    {
+        int x = s.lastIndexOf(' ');
+        String str=s.substring(x+1);   
+        int ans=Integer.parseInt(str);
+        return ans;
+    }
+    
+    public static void main(String args[])throws IOException
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("\t\t\t\t\t---------------------------------");
+        System.out.println("\t\t\t\t\t|Welcome To ixigo-Ticket Booking|");
+        System.out.println("\t\t\t\t\t---------------------------------");
+        System.out.println("Enter no. of passengers :: ");
+        int m=sc.nextInt();    
+        Railway obj=new Railway(m);
+        obj.wwd();
+        String date=obj.input();
+        double Payment=obj.calculate();
+        System.out.println("Enter 1 to get receipt");
+        int a=sc.nextInt();
+        obj.display(a);
+        BufferedReader br=new BufferedReader(new FileReader("C:\\Users\\Admin\\Desktop\\RAILWAY DETAILS\\ADS.TXT"));
+        String avail = br.readLine();
+        String s=null;
+        while(avail != null)
+        {
+            avail = br.readLine();
+            if(avail !=null)
+                s=avail;
+        }
+        int ans=obj.Extract(s);
+        PrintWriter pw = new PrintWriter(new FileWriter("C:\\Users\\Admin\\Desktop\\RAILWAY DETAILS\\ADS.TXT",true));
+        pw.println();
+        pw.println("Booking for "+date);
+        pw.println("No. of Passengers "+m);
+        pw.println("Amount Paid Rs."+Payment);
+        pw.println("Seats available "+(300-(m+(300-ans))));
+        pw.flush();
+        pw.close();      
+    }
+}
