@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OUTPUT</title>
 </head>
 <body>
     <img src="img.jpeg" alt="Output Image">
